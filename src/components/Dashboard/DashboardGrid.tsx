@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
 import { CollateralizationWidget } from '../Widgets/CollateralizationWidget';
 import { LendingValuesWidget } from '../Widgets/LendingValuesWidget';
@@ -14,6 +14,27 @@ interface DashboardGridProps {
 
 export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => {
   const [layouts, setLayouts] = useState<{ [key: string]: Layout[] }>({});
+
+  const getDefaultLayout = (page: string): Layout[] => {
+    const widgets = getWidgetsForPage(page);
+    return widgets.map(widget => ({
+      i: widget.i,
+      x: widget.x,
+      y: widget.y,
+      w: widget.w,
+      h: widget.h,
+      minW: 2,
+      minH: 2
+    }));
+  };
+
+  useEffect(() => {
+    const defaultLayout = getDefaultLayout(currentPage);
+    setLayouts(prevLayouts => ({
+      ...prevLayouts,
+      lg: defaultLayout
+    }));
+  }, [currentPage]);
 
   const getWidgetsForPage = (page: string) => {
     switch (page) {
@@ -51,8 +72,8 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
 
   const widgets = getWidgetsForPage(currentPage);
 
-  const onLayoutChange = (layout: Layout[], layouts: { [key: string]: Layout[] }) => {
-    setLayouts(layouts);
+  const onLayoutChange = (layout: Layout[], allLayouts: { [key: string]: Layout[] }) => {
+    setLayouts(allLayouts);
   };
 
   return (
