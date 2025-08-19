@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Responsive, WidthProvider, Layout } from 'react-grid-layout';
+import { Responsive, WidthProvider, Layout, Layouts } from 'react-grid-layout';
 import { CollateralizationWidget } from '../Widgets/CollateralizationWidget';
 import { LendingValuesWidget } from '../Widgets/LendingValuesWidget';
 import { PositionsTableWidget } from '../Widgets/PositionsTableWidget';
@@ -13,7 +13,7 @@ interface DashboardGridProps {
 }
 
 export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => {
-  const [layouts, setLayouts] = useState<{ [key: string]: Layout[] }>({});
+  const [layouts, setLayouts] = useState<Layouts>({});
 
   const getDefaultLayout = (page: string): Layout[] => {
     const widgets = getWidgetsForPage(page);
@@ -23,8 +23,10 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
       y: widget.y,
       w: widget.w,
       h: widget.h,
-      minW: 2,
-      minH: 2
+      minW: widget.minW || 2,
+      minH: widget.minH || 2,
+      maxW: widget.maxW,
+      maxH: widget.maxH
     }));
   };
 
@@ -40,21 +42,21 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
     switch (page) {
       case 'position-management':
         return [
-          { i: 'collateralization', component: <CollateralizationWidget />, x: 0, y: 0, w: 3, h: 2 },
-          { i: 'lending-1', component: <LendingValuesWidget title="Net Lending Values per Asset" />, x: 3, y: 0, w: 3, h: 2 },
-          { i: 'lending-2', component: <LendingValuesWidget title="Net Lending Values per Asset" />, x: 6, y: 0, w: 3, h: 2 },
-          { i: 'lending-3', component: <LendingValuesWidget title="Net Lending Values per Asset - Maturities (USD)" />, x: 9, y: 0, w: 3, h: 2 },
-          { i: 'positions-table', component: <PositionsTableWidget />, x: 0, y: 2, w: 12, h: 4 },
-          { i: 'asset-breakdown', component: <AssetBreakdownWidget />, x: 0, y: 6, w: 6, h: 3 },
-          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 6, w: 6, h: 3 }
+          { i: 'collateralization', component: <CollateralizationWidget />, x: 0, y: 0, w: 3, h: 2, minW: 2, minH: 2 },
+          { i: 'lending-1', component: <LendingValuesWidget title="Net Lending Values per Asset" />, x: 3, y: 0, w: 3, h: 2, minW: 2, minH: 2 },
+          { i: 'lending-2', component: <LendingValuesWidget title="Net Lending Values per Asset" />, x: 6, y: 0, w: 3, h: 2, minW: 2, minH: 2 },
+          { i: 'lending-3', component: <LendingValuesWidget title="Net Lending Values per Asset - Maturities (USD)" />, x: 9, y: 0, w: 3, h: 2, minW: 2, minH: 2 },
+          { i: 'positions-table', component: <PositionsTableWidget />, x: 0, y: 2, w: 12, h: 4, minW: 6, minH: 3 },
+          { i: 'asset-breakdown', component: <AssetBreakdownWidget />, x: 0, y: 6, w: 6, h: 3, minW: 3, minH: 2 },
+          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 6, w: 6, h: 3, minW: 3, minH: 2 }
         ];
       case 'dashboards':
         return [
-          { i: 'asset-breakdown', component: <AssetBreakdownWidget />, x: 0, y: 0, w: 6, h: 4 },
-          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 0, w: 6, h: 4 },
-          { i: 'collateralization', component: <CollateralizationWidget />, x: 0, y: 4, w: 4, h: 3 },
-          { i: 'lending-1', component: <LendingValuesWidget title="Market Overview" />, x: 4, y: 4, w: 4, h: 3 },
-          { i: 'lending-2', component: <LendingValuesWidget title="Portfolio Summary" />, x: 8, y: 4, w: 4, h: 3 }
+          { i: 'asset-breakdown', component: <AssetBreakdownWidget />, x: 0, y: 0, w: 6, h: 4, minW: 3, minH: 2 },
+          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 0, w: 6, h: 4, minW: 3, minH: 2 },
+          { i: 'collateralization', component: <CollateralizationWidget />, x: 0, y: 4, w: 4, h: 3, minW: 2, minH: 2 },
+          { i: 'lending-1', component: <LendingValuesWidget title="Market Overview" />, x: 4, y: 4, w: 4, h: 3, minW: 2, minH: 2 },
+          { i: 'lending-2', component: <LendingValuesWidget title="Portfolio Summary" />, x: 8, y: 4, w: 4, h: 3, minW: 2, minH: 2 }
         ];
       default:
         return [
@@ -65,14 +67,14 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
                 <p className="text-gray-400">Select a different page to see specific widgets</p>
               </div>
             </div>
-          ), x: 0, y: 0, w: 12, h: 4 }
+          ), x: 0, y: 0, w: 12, h: 4, minW: 6, minH: 2 }
         ];
     }
   };
 
   const widgets = getWidgetsForPage(currentPage);
 
-  const onLayoutChange = (layout: Layout[], allLayouts: { [key: string]: Layout[] }) => {
+  const onLayoutChange = (layout: Layout[], allLayouts: Layouts) => {
     setLayouts(allLayouts);
   };
 
@@ -87,11 +89,14 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
         rowHeight={60}
         isDraggable={true}
         isResizable={true}
+        compactType="vertical"
+        preventCollision={false}
         margin={[16, 16]}
         containerPadding={[0, 0]}
+        useCSSTransforms={true}
       >
         {widgets.map((widget) => (
-          <div key={widget.i} data-grid={{ x: widget.x, y: widget.y, w: widget.w, h: widget.h, minW: 2, minH: 2 }}>
+          <div key={widget.i}>
             {widget.component}
           </div>
         ))}
