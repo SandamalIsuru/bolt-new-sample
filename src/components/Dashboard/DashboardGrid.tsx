@@ -5,6 +5,7 @@ import { LendingValuesWidget } from '../Widgets/LendingValuesWidget';
 import { PositionsTableWidget } from '../Widgets/PositionsTableWidget';
 import { AssetBreakdownWidget } from '../Widgets/AssetBreakdownWidget';
 import { RewardsFeesWidget } from '../Widgets/RewardsFeesWidget';
+import { UserRoleManager } from '../UserRole/UserRoleManager';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -57,6 +58,10 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
           { i: 'collateralization', component: <CollateralizationWidget />, x: 0, y: 4, w: 4, h: 3, minW: 2, minH: 2 },
           { i: 'lending-1', component: <LendingValuesWidget title="Market Overview" />, x: 4, y: 4, w: 4, h: 3, minW: 2, minH: 2 },
           { i: 'lending-2', component: <LendingValuesWidget title="Portfolio Summary" />, x: 8, y: 4, w: 4, h: 3, minW: 2, minH: 2 }
+        ];
+      case 'user-management':
+        return [
+          { i: 'user-role-manager', component: <UserRoleManager />, x: 0, y: 0, w: 12, h: 8, minW: 8, minH: 6 }
         ];
       default:
         return [
