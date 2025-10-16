@@ -6,7 +6,6 @@ import { PositionsTableWidget } from '../Widgets/PositionsTableWidget';
 import { AssetBreakdownWidget } from '../Widgets/AssetBreakdownWidget';
 import { RewardsFeesWidget } from '../Widgets/RewardsFeesWidget';
 import { UserRoleManager } from '../UserRole/UserRoleManager';
-import { UserRoleManager } from '../UserRole/UserRoleManager';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -26,15 +25,13 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
       w: widget.w,
       h: widget.h,
       minW: widget.minW || 2,
-      minH: widget.minH || 2,
-      maxW: widget.maxW,
-      maxH: widget.maxH
+      minH: widget.minH || 2
     }));
   };
 
   useEffect(() => {
     const defaultLayout = getDefaultLayout(currentPage);
-    setLayouts(prevLayouts => ({
+    setLayouts((prevLayouts: Layouts) => ({
       ...prevLayouts,
       lg: defaultLayout
     }));
@@ -81,7 +78,7 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
 
   const widgets = getWidgetsForPage(currentPage);
 
-  const onLayoutChange = (layout: Layout[], allLayouts: Layouts) => {
+  const onLayoutChange = (_layout: Layout[], allLayouts: Layouts) => {
     setLayouts(allLayouts);
   };
 
