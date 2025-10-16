@@ -6,6 +6,7 @@ import { PositionsTableWidget } from '../Widgets/PositionsTableWidget';
 import { AssetBreakdownWidget } from '../Widgets/AssetBreakdownWidget';
 import { RewardsFeesWidget } from '../Widgets/RewardsFeesWidget';
 import { UserRoleManager } from '../UserRole/UserRoleManager';
+import { UserRoleManager } from '../UserRole/UserRoleManager';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -49,7 +50,8 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({ currentPage }) => 
           { i: 'lending-3', component: <LendingValuesWidget title="Net Lending Values per Asset - Maturities (USD)" />, x: 9, y: 0, w: 3, h: 2, minW: 2, minH: 2 },
           { i: 'positions-table', component: <PositionsTableWidget />, x: 0, y: 2, w: 12, h: 4, minW: 6, minH: 3 },
           { i: 'asset-breakdown', component: <AssetBreakdownWidget />, x: 0, y: 6, w: 6, h: 3, minW: 3, minH: 2 },
-          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 6, w: 6, h: 3, minW: 3, minH: 2 }
+          { i: 'rewards-fees', component: <RewardsFeesWidget />, x: 6, y: 6, w: 6, h: 3, minW: 3, minH: 2 },
+          { i: 'user-role-manager', component: <UserRoleManager />, x: 0, y: 9, w: 12, h: 8, minW: 8, minH: 6 }
         ];
       case 'dashboards':
         return [
