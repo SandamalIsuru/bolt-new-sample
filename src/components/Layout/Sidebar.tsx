@@ -26,13 +26,31 @@ const navigationItems: NavigationItem[] = [
   { id: 'overview', label: 'OVERVIEW', icon: 'BarChart3' },
   { id: 'dashboards', label: 'Dashboards', icon: 'BarChart3' },
   { id: 'operations', label: 'OPERATIONS', icon: 'Settings' },
-  { 
-    id: 'positions', 
-    label: 'Positions', 
+  {
+    id: 'positions',
+    label: 'Positions',
     icon: 'TrendingUp',
     children: [
-      { id: 'position-management', label: 'Position Management', icon: 'TrendingUp' },
-      { id: 'position-updates', label: 'Position Updates', icon: 'RotateCcw' },
+      {
+        id: 'position-management',
+        label: 'Position Management',
+        icon: 'TrendingUp',
+        children: [
+          { id: 'positions-view', label: 'View Positions', icon: 'BarChart3' },
+          { id: 'positions-create', label: 'Create Position', icon: 'TrendingUp' },
+          { id: 'positions-analysis', label: 'Position Analysis', icon: 'BarChart3' }
+        ]
+      },
+      {
+        id: 'position-updates',
+        label: 'Position Updates',
+        icon: 'RotateCcw',
+        children: [
+          { id: 'updates-pending', label: 'Pending Updates', icon: 'RotateCcw' },
+          { id: 'updates-history', label: 'Update History', icon: 'FileText' },
+          { id: 'updates-bulk', label: 'Bulk Updates', icon: 'RotateCcw' }
+        ]
+      },
       { id: 'position-transfers', label: 'Position Transfers', icon: 'RotateCcw' },
       { id: 'depository', label: 'Depository', icon: 'Database' }
     ]
@@ -50,7 +68,17 @@ const navigationItems: NavigationItem[] = [
   { id: 'scheduler', label: 'Scheduler', icon: 'Settings' },
   { id: 'corporate-actions', label: 'Corporate Actions', icon: 'FileText' },
   { id: 'audit-trail', label: 'Audit Trail', icon: 'FileText' },
-  { id: 'reference-data', label: 'Reference Data', icon: 'Database' },
+  {
+    id: 'reference-data',
+    label: 'Reference Data',
+    icon: 'Database',
+    children: [
+      { id: 'reference-assets', label: 'Assets', icon: 'Database' },
+      { id: 'reference-counterparties', label: 'Counterparties', icon: 'Users' },
+      { id: 'reference-currencies', label: 'Currencies', icon: 'DollarSign' },
+      { id: 'reference-instruments', label: 'Instruments', icon: 'FileText' }
+    ]
+  },
   { id: 'user-management', label: 'User Management', icon: 'Users' },
   { id: 'alerts', label: 'ALERTS', icon: 'AlertTriangle' },
   { id: 'notifications', label: 'Notifications', icon: 'Bell', badge: 182416 }
@@ -99,9 +127,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeItem, onItemClick }) => 
               : 'text-gray-300 hover:text-white hover:bg-gray-700 rounded-md'
           } ${level > 0 ? 'text-xs' : ''}`}
           onClick={() => {
-            onItemClick(item.id);
             if (hasChildren) {
               toggleExpanded(item.id);
+            } else {
+              onItemClick(item.id);
             }
           }}
           style={{ paddingLeft: `${12 + level * 16}px` }}
